@@ -1,17 +1,11 @@
 <?php
-
-// Fonction pour charger une vue
-
-function loadView($view)
+require_once('../src/Model/Articles.php');
+$articles = new Articles();
+function loadView($view, $data = array())
 {
-
+    extract($data);
     include('../src/View/' . $view . '.php');
 }
-
-// function loadCont($controller)
-// {
-//     include('../Controller/' . $controller . '.php');
-// }
 
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -19,17 +13,32 @@ $request_uri = trim($request_uri, '/');
 
 // Routeur
 switch ($request_uri) {
-    // url name
-    case '':
-        // fichier
-        loadView('articles');
-        break;
-
     case 'articles':
-        loadView('articles');
+        // Appel à la fonction depuis la classe
+        $allArticles = $articles->getAllArticles();
+        // on passe a notre fonction le name du fichier + la données en array
+        loadView('Show_all_articles', array('allArticles' => $allArticles));
         break;
 
+    case 'articles/create':
+        postCreate();
+        break;
 
+    case 'articles/store':
+        postStore();
+        break;
+
+    case 'articles/edit':
+        postEdit();
+        break;
+
+    case 'articles/update':
+        postUpdate();
+        break;
+
+    case 'articles/destroy':
+        postDestroy();
+        break;
 
     default:
         loadView('error');

@@ -7,4 +7,4 @@
 </IfModule> -->
 
 RewriteEngine On
-RewriteRule ^$ public/ [L]
+RewriteRule ^$ Public/ [L]
