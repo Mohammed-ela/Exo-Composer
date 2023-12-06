@@ -1,0 +1,21 @@
+{
+    "name": "mohammed-ela/composer",
+    "description": "Projet initiation composer",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "MohammedEla\\Composer\\Controller\\": "src/Controller/",
+            "MohammedEla\\Composer\\Model\\": "src/Model/"
+        }
+    },    
+    "authors": [
+        {
+            "name": "Mohammed",
+            "email": "elamrani.mohammed95@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vlucas/phpdotenv": "*"
+    }
+}
