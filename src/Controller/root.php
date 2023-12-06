@@ -5,13 +5,13 @@
 function loadView($view)
 {
 
-    include('../View/' . $view . '.php');
+    include('../src/View/' . $view . '.php');
 }
 
-function loadCont($controller)
-{
-    include('../Controller/' . $controller . '.php');
-}
+// function loadCont($controller)
+// {
+//     include('../Controller/' . $controller . '.php');
+// }
 
 
 $request_uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
@@ -19,7 +19,9 @@ $request_uri = trim($request_uri, '/');
 
 // Routeur
 switch ($request_uri) {
+    // url name
     case '':
+        // fichier
         loadView('articles');
         break;
 
