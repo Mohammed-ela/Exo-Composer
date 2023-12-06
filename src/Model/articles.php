@@ -37,7 +37,7 @@ function getArticleById($id)
     $stmt = $db->prepare($query);
     $stmt->bindParam(":id", $id);
     $stmt->execute();
-    return $stmt->fetch(PDO::FETCH_ASSOC);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
 // Function to create a new article
