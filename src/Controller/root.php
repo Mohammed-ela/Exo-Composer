@@ -14,8 +14,8 @@ $request_uri = trim($request_uri, '/');
 // Routeur
 switch ($request_uri) {
     case 'articles':
-        $id=$_GET['id'];
-        if (empty($id)) {
+
+        if (empty($_GET['id'])) {
 
         // Appel à la fonction depuis la classe
         $allArticles = $articles->getAllArticles();
@@ -24,6 +24,7 @@ switch ($request_uri) {
         break;
        
     }else {
+        $id=$_GET['id'];
         // Appel à la fonction depuis la classe
         $Articles_by_id = $articles->getArticleById($id);
         // on passe a notre fonction le name du fichier + la données en array
@@ -32,7 +33,8 @@ switch ($request_uri) {
     }
         
     case 'articles/create':
-        postCreate();
+        // $createArticles = $articles->createArticle();
+        loadView('create_articles',array());
         break;
 
     case 'articles/store':
