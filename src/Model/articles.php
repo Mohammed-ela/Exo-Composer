@@ -9,7 +9,7 @@ public static function connectDB()
     $host = $_ENV['DB_HOST']; 
     $dbname = $_ENV['DB_NAME'];
     $username = $_ENV['DB_USER']; 
-    $password = ""; 
+    $password = $_ENV['DB_PASSWORD']; 
 
     try {
         $db = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
@@ -24,7 +24,7 @@ public static function connectDB()
 public static function getAllArticles()
 {
     $db = self::connectDB();
-    $query = "SELECT * FROM articles";
+    $query = "SELECT * FROM posts";
     $result = $db->query($query);
     return $result->fetchAll(PDO::FETCH_ASSOC);
 }
@@ -33,7 +33,7 @@ public static function getAllArticles()
 function getArticleById($id)
 {
     $db = self::connectDB();
-    $query = "SELECT * FROM articles WHERE id = :id";
+    $query = "SELECT * FROM posts WHERE id = :id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":id", $id);
     $stmt->execute();
@@ -44,7 +44,7 @@ function getArticleById($id)
 function createArticle($title, $body)
 {
     $db = self::connectDB();
-    $query = "INSERT INTO articles (title, body) VALUES (:title, :body)";
+    $query = "INSERT INTO posts (title, body) VALUES (:title, :body)";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":title", $title);
     $stmt->bindParam(":body", $body);
@@ -55,7 +55,7 @@ function createArticle($title, $body)
 function updateArticle($id, $title, $body)
 {
     $db = self::connectDB();
-    $query = "UPDATE articles SET title = :title, body = :body, updated_at = NOW() WHERE id = :id";
+    $query = "UPDATE posts SET title = :title, body = :body, updated_at = NOW() WHERE id = :id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":id", $id);
     $stmt->bindParam(":title", $title);
@@ -67,7 +67,7 @@ function updateArticle($id, $title, $body)
 function deleteArticle($id)
 {
     $db = self::connectDB();
-    $query = "DELETE FROM articles WHERE id = :id";
+    $query = "DELETE FROM posts WHERE id = :id";
     $stmt = $db->prepare($query);
     $stmt->bindParam(":id", $id);
     $stmt->execute();

@@ -17,6 +17,7 @@ include('header.php');
                     <th>Contenu</th>
                     <th>Date de Création</th>
                     <th>Date de Mise à Jour</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,6 +28,10 @@ include('header.php');
                         <td><?= $Articles_by_id['0']['body'] ?></td>
                         <td><?= $Articles_by_id['0']['created_at'] ?></td>
                         <td><?= $Articles_by_id['0']['updated_at'] ?></td>
+                        <td>
+                            <a href="/articles/delete?id=<?= $Articles_by_id['0']['id'] ?>" class="btn btn-danger">Supprimer</a>
+                            <a href="/articles/edit?id=<?= $Articles_by_id['0']['id'] ?>" class="btn btn-primary">Modifier</a>
+                        </td>
                     </tr>
             </tbody>
         </table>

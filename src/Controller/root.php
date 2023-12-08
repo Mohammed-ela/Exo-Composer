@@ -37,21 +37,49 @@ switch ($request_uri) {
         loadView('create_articles',array());
         break;
 
-    case 'articles/store':
-        postStore();
-        break;
-
     case 'articles/edit':
-        postEdit();
-        break;
+        if (!empty($_GET['id'])) {
 
-    case 'articles/update':
-        postUpdate();
-        break;
+            $id=$_GET['id'];
+            $Articles_by_id = $articles->getArticleById($id);
+            loadView('update_articles', array('Articles_by_id' => $Articles_by_id));
+            break;
 
-    case 'articles/destroy':
-        postDestroy();
-        break;
+        }else{
+            loadView('error');
+            break;
+        }
+    
+    
+     case 'articles/delete':
+    
+        if (!empty($_GET['id'])) {
+
+            $id=$_GET['id'];
+
+            $articles = new Articles();
+
+            $articles->deleteArticle($id);
+            $_SESSION['msg']="<div class='alert alert-success' role='alert'>
+            Votre article a bien etait supprimé !
+            </div>";
+            // Appel à la fonction depuis la classe
+            $allArticles = $articles->getAllArticles();
+            // on passe a notre fonction le name du fichier + la données en array
+            loadView('Show_all_articles', array('allArticles' => $allArticles));
+            break;
+            
+        }else{
+            loadView('error');
+            break;
+        }
+
+
+
+
+
+
+
 
     default:
         loadView('error');

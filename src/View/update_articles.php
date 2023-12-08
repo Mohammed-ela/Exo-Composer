@@ -2,7 +2,7 @@
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-$title='ajout';
+$title='modfication';
 include('header.php');
 
 ?>
@@ -14,22 +14,20 @@ include('header.php');
             unset($_SESSION['msg']);
         }
         ?>
-        <h1 class="mb-4">Formulaire de création d'article</h1>
+        <h1 class="mb-4">Formulaire de modification d'article</h1>
 
         <form action="" method="post">
             <div class="mb-3">
                 <label for="title" class="form-label">Titre :</label>
-                <input type="text" id="title" name="title" class="form-control" value="<?= isset($_SESSION['title'])?$_SESSION['title']:''?>" required>
+                <input type="text" id="title" name="title" class="form-control" value="<?= $Articles_by_id['0']['title'] ?>" required>
             </div>
             
             <div class="mb-3">
                 <label for="body" class="form-label">Contenu :</label>
-                <textarea id="body" name="body" class="form-control" required><?= isset($_SESSION['body'])?$_SESSION['body']:''?></textarea>
+                <textarea id="body" name="body" class="form-control" required><?= $Articles_by_id['0']['body'] ?></textarea>
             </div>
 
-            <button type="submit" class="btn btn-primary">Créer l'article</button>
-
-            <a href="/articles" class="btn btn-secondary">Liste des article</a>
+            <button type="submit" class="btn btn-primary">Modifier l'article</button>
         </form>
     </div>
 
@@ -43,27 +41,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 // Vérifier si les données POST existent
 if(isset($_POST['title'], $_POST['body'])) {
 
-    $titre = cleanInput($_POST['title']);
+    $title = cleanInput($_POST['title']);
     $body = cleanInput($_POST['body']);
+    $id = $_GET['id'];
 
-$_SESSION['title']=$titre;
-$_SESSION['body']=$body;
-
-    if(!empty($titre) && !empty($body)) {
+    if(!empty($title) && !empty($body) && !empty($id)) {
 
 
-        $articles->createArticle($titre, $body);
+        $articles->updateArticle($id, $title, $body);
         $_SESSION['msg']="<div class='alert alert-success' role='alert'>
-        Bravo ! Votre article $titre est bien ajouté.
+        Bravo ! Votre article $titre a etait mis à jour.
       </div>";
-      header('Location: /articles/create');
+      header("Location: /articles/edit?id=$id");
       exit();
 
     } else {
         $_SESSION['msg']='<div class="alert alert-danger" role="alert">
         Veuillez remplir tous les champs du formulaire.
       </div>';
-      header('Location: /articles/create');
+      header("Location: /articles/edit?id=$id");
       exit();
     }
 
@@ -71,7 +67,7 @@ $_SESSION['body']=$body;
     $_SESSION['msg']='<div class="alert alert-danger" role="alert">
     Les données du formulaire ne sont pas correctes.
   </div>';
-  header('Location: /articles/create');
+  header("Location: /articles/edit?id=$id");
   exit();
 
 }
